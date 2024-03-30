@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analise Defeitos</title>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    
+</head>
+<body>
+    <nav class="navbar bg-body-tertiary">
+        <div class="container-fluid">
+          <form class="d-flex" role="search">
+            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+            <button class="btn btn-outline-success" type="submit">Search</button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="nav nav-pills">
+                    {% if user.is_authenticated %} {# objeto user sempre está disponível nos templates #}
+                    <li class="nav-item">
+                        <a href="{% url 'logout' %}" class="nav-link px-2 link-dark">Sair</a>
+                    </li>
+                    {% else %}
+                    <li class="nav-item">
+                        <a href="{% url 'signup' %}" class="nav-link px-2 link-dark">Cadastrar</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{% url 'login' %}" class="nav-link px-2 link-dark">Acessar</a>
+                    </li>
+                    {% endif %}
+                </ul>
+            </div>
+          </form>
+        </div>
+      </nav>
+    {% block content %}
+    {% endblock %}
+    
+
+    <h6>Site Desenvolvido por Infoexpress Sistemas</h6>
+</body>
+    
+</html>

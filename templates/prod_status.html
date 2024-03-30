@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Consulta Lançamentos de Análise de  Defeitos </h1>
+    <table border="1" class="table">
+        <thead>
+        <tr>
+            <th scope="col">ID</th>
+            <th scope="col">data_status</th>
+            <th scope="col">Status</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for analise in  prod_status %}
+       <tr>
+            <td>{{ analise.id }}</td>
+            <td>{{ analise.data_status }}</td>
+            <td>{{ analise.status }}</td>
+        </tr>
+    {% endfor %}
+</tbody>
+</table>
+<style>
+    .table, th, td {
+        border-collapse: collapse;
+        padding: 10px;
+        text-align: left;
+    }
+</style>
+{% endblock content %}

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        /* Custom CSS para alterações específicas */
+        body {
+            background-color: #000; /* Fundo preto */
+            color: #fff; /* Texto branco */
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding-left: 30%; /* Adiciona espaço à esquerda */
+        }
+
+        .jumbotron {
+            background-color: #333; /* Cor de fundo do jumbotron */
+            max-width: 400px; /* Largura máxima do jumbotron */
+            width: 100%; /* Largura total do jumbotron */
+            padding: 20px; /* Espaçamento interno */
+        }
+
+        .form-group {
+            margin-bottom: 1rem; /* Adicionando margem inferior ao grupo de formulários */
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="jumbotron">
+        <h1 class="display-4 text-center">Login</h1>
+        <form method="post">
+            {% csrf_token %}
+            <!--{{ form.as_p }}-->
+            <div class="mb-3">
+              <label for="exampleInputusername" class="form-label text-ad-right" >Username</label>
+              <input type="text" class="form-control" id="username" aria-describedby="Username" name="username"  required autofocus>
+              <div id="username" class="form-text">We'll never share your email with anyone else.</div>
+            </div>
+            <div class="mb-3">
+              <label for="exampleInputPassword1" class="form-label">Password</label>
+              <input type="password" class="form-control" id="Password1" name="password" required>
+            </div>
+            <div class="mb-3 form-check">
+              <input type="checkbox" class="form-check-input" id="exampleCheck1">
+              <label class="form-check-label" for="exampleCheck1">Check me out</label>
+            </div>
+            <div>
+                <button type="submit" class="btn btn-primary">Login</button>
+            </div>
+            {% for k, v in form.errors.items %}
+            {{ v }}
+            {% endfor %}
+          </form>
+    </div>
+</div>
+
+<!-- Bootstrap JavaScript -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<!-- Seu JavaScript -->
+<!--<script src="../js/script.js"></script>-->
+
+</body>
+</html>
