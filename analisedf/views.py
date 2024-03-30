@@ -16,7 +16,7 @@ class Login(TemplateView):
 #@login_required
 class ProdutoListView(LoginRequiredMixin,ListView):
     model = ProdutoAnalise
-    template_name = 'list_prod.html'
+    template_name = 'list-prod.html'
     context_object_name = 'list_prod'
 
 class AnaliseListView(LoginRequiredMixin,ListView):
@@ -26,7 +26,7 @@ class AnaliseListView(LoginRequiredMixin,ListView):
 
 class ProdStatusListView(LoginRequiredMixin,ListView):
     model = ProdutoStatus
-    template_name = 'prod_status.html'
+    template_name = 'prod-status.html'
     context_object_name = 'prod_status'
 
 class PedidoAnaliseCreateView(LoginRequiredMixin,CreateView):
