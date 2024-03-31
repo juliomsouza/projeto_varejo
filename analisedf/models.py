@@ -1,15 +1,7 @@
 from django.db import models
 from datetime import timedelta, datetime
 
-"""
-    pedido 
-        cliente: Nome, celular , e-mail, cpf , NFe
-    produtos: cod_produto, tipo:() cor:  tamanho: descricao do(s) defeito(s)
-    data_entrada - previsao_entrega_cliente - previsão_reposta 10 ou 15 antes de estourar o prazo de 30 dias
-    filial - funcionario que recebeu
-    status: (recebido, em analise, (Produto não localizado,realizado_conserto, sem conserto),
-         (aguardando transporte, liberado credito))
-"""
+
 STATUS_PRODUTO = [('recebido','Recebido'),('em_analise','Em analise'), ('aguardando_transporte','aguardando transporte')]
 
 class PedidoAnalise(models.Model):
@@ -30,7 +22,7 @@ class PedidoAnalise(models.Model):
             self.data_max_resp = data_atual + timedelta(days=15)
             self.data_max_retorno = data_atual + timedelta(days=30)
     
-        super(PedidoAnalise, self).save(*args, **kwargs)
+        super(PedidoAnalise, self).save(*args, **kwargs)   
     
 
 class ProdutoAnalise(models.Model):
@@ -42,19 +34,32 @@ class ProdutoAnalise(models.Model):
     def __str__(self):
         return f'{self.codigo} - {self.descricao}' 
 
+
 class ProdutoAnaliseFoto(models.Model):
     produto = models.ForeignKey(ProdutoAnalise, on_delete=models.CASCADE)
     image = models.ImageField(upload_to='produto/imagens')
+
+    def __str__(self):
+        return f'{self.produto}' 
 
 class ProdutoStatus(models.Model):
     produto = models.ForeignKey(ProdutoAnalise, on_delete = models.CASCADE)
     data_status = models.DateTimeField('Data',auto_now=True)
     status = models.CharField('Status', choices=STATUS_PRODUTO, default='aguardando_transporte', max_length=30)
 
+    def __str__(self):
+        return f'{self.produto} - {self.data_status} - {self.status}' 
+    
     class Meta:
         verbose_name_plural = "Produto status"
 
-    '''
+
+    """
+    pedido 
+        cliente: Nome, celular , e-mail, cpf , NFe
+    produtos: cod_produto, tipo:() cor:  tamanho: descricao do(s) defeito(s)
+    data_entrada - previsao_entrega_cliente - previsão_reposta 10 ou 15 antes de estourar o prazo de 30 dias
+    filial - funcionario que recebeu
     status: (recebido, em analise, (Produto não localizado,realizado_conserto, sem conserto),
          (aguardando transporte, liberado credito))
-    '''
+"""

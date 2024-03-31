@@ -1,37 +1,13 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login</title>
-    <!-- Bootstrap CSS -->
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-    <style>
-        /* Custom CSS para alterações específicas */
-        body {
-            background-color: #000; /* Fundo preto */
-            color: #fff; /* Texto branco */
-            height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding-left: 20%; /* Adiciona espaço à esquerda */
-        }
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
 
-        .jumbotron {
-            background-color: #333; /* Cor de fundo do jumbotron */
-            max-width: 800px; /* Largura máxima do jumbotron */
-            width: 100%; /* Largura total do jumbotron */
-            padding: 10px; /* Espaçamento interno */
-        }
+{% block content %}
 
-        .form-group {
-            margin-bottom: 1rem; /* Adicionando margem inferior ao grupo de formulários */
-        }
-    </style>
-</head>
+{% block page_title %}
+Cadastro Análises
+{% endblock page_title %}
+
 <body>
-
 <div class="container">
     <div class="jumbotron">
         <h1 class="display-4 text-center">Pedido Analise</h1>
@@ -66,14 +42,5 @@
         <p id="message" class="mt-3 text-center"></p>
     </div>
 </div>
-
-<!-- Bootstrap JavaScript -->
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-
-<!-- Seu JavaScript -->
-<!--<script src="../js/script.js"></script>-->
-
 </body>
-</html>
+{% endblock %}

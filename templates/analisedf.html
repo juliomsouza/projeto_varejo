@@ -13,9 +13,9 @@
             <th scope="col">NFe/CFe</th>
             <th scope="col">data_entrada</th>
             <th scope="col">data_max_resp</th>
-            <th scope="col">data_max_retorn</th>
+            <th scope="col">data_max_retorno</th>
             <th scope="col">produtos</th>
-            
+            <th scope="col">Defeitos</th>
         </tr>
         </thead>
         <tbody>
@@ -33,6 +33,11 @@
             <td>
                 {%  for produto in analise.produtoanalise_set.all %}
                 {{ produto.codigo }}<br>
+                {% endfor %}
+            </td>
+            <td>
+                {%  for produto in analise.produtoanalise_set.all %}
+                {{ produto.descricao_df }}<br>
                 {% endfor %}
             </td> 
            

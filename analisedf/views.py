@@ -31,9 +31,9 @@ class ProdStatusListView(LoginRequiredMixin,ListView):
 
 class PedidoAnaliseCreateView(LoginRequiredMixin,CreateView):
     model = PedidoAnalise
-    template_name = 'pedidoanalise_form.html'
+    template_name = 'pedidoanalise-form.html'
     fields = ('filial','nome_cliente','telefone','email','cpf_cnpj','doc_fiscal')
-    success_url = reverse_lazy('analisedf:produto-analise') # URL para redirecionado em caso de sucesso
+    success_url = reverse_lazy('analisedf:produto_analise') # URL para redirecionado em caso de sucesso
     #success_message = 'Pedido criado!.'
     # implementa o método que conclui a ação com sucesso (dentro da classe)
     #def form_valid(self, form):
@@ -42,7 +42,7 @@ class PedidoAnaliseCreateView(LoginRequiredMixin,CreateView):
     
 class ProdutoAnaliseCreateView(LoginRequiredMixin,CreateView):
     model = ProdutoAnalise
-    template_name = 'produto-analise_form.html'
+    template_name = 'produto-analise-form.html'
     fields = ('pedido','codigo','descricao','descricao_df')
 
     def get_success_url(self):
