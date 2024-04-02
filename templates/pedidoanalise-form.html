@@ -1,46 +1,45 @@
-{% extends "base.html" %}
+{% extends 'base.html' %}
 {% load crispy_forms_tags %}
 
 {% block content %}
+  {% block page_title %}
+    Cadastro De Análises
+  {% endblock %}
 
-{% block page_title %}
-Cadastro Análises
-{% endblock page_title %}
-
-<body>
-<div class="container">
-    <div class="jumbotron">
+  <body>
+    <div class="container">
+      <div class="jumbotron">
         <h1 class="display-4 text-center">Pedido Analise</h1>
-        <form id="pedidoForm" method='post'>
-            {% csrf_token %}
-            <div class="mb-3">
-              <label for="filial" class="form-label text-ad-right" >Filial</label>
-              <input type="text" class="form-control" id="filial" aria-describedby="Filial" name="filial"  required autofocus>
-            </div>
-            <div class="mb-3">
-              <label for="nome_cliente" class="form-label">Cliente</label>
-              <input type="nome_cliente" class="form-control" id="nome_cliente" name="nome_cliente" required>
-            </div>
-            <div class="mb-3">
-                <label for="telefone" class="form-label">Telefone</label>
-                <input type="telefone" class="form-control" id="telefone" name="telefone" required>
-              </div>
-              <div class="mb-3">
-                <label for="email" class="form-label">E-mail</label>
-                <input type="email" class="form-control" id="email" name="email" required>
-              </div>
-              <div class="mb-3">
-                <label for="cpf_cnpj" class="form-label">CPF/CNPJ</label>
-                <input type="cpf_cnpj" class="form-control" id="cpf_cnpj" name="cpf_cnpj" required>
-              </div>
-              <div class="mb-3">
-                <label for="NFe/CFe" class="form-label">NFe/CFe</label>
-                <input type="doc_fiscal" class="form-control" id="doc_fiscal" name="doc_fiscal" required>
-              </div> 
-            <button type="submit" class="btn btn-primary btn-block">Salvar</button>
+        <form id="pedidoForm" method="POST">
+          {% csrf_token %}
+          <div class="mb-1">
+            <label for="filial" class="form-label text-ad-right">Filial</label>
+            <input type="text" class="form-control" id="filial" aria-describedby="Filial" name="filial" required autofocus />
+          </div>
+          <div class="mb-3">
+            <label for="nome_cliente" class="form-label">Cliente</label>
+            <input type="nome_cliente" class="form-control" id="nome_cliente" name="nome_cliente" required />
+          </div>
+          <div class="mb-3">
+            <label for="telefone" class="form-label">Telefone</label>
+            <input type="telefone" class="form-control" id="telefone" name="telefone" required />
+          </div>
+          <div class="mb-3">
+            <label for="email" class="form-label">E-mail</label>
+            <input type="email" class="form-control" id="email" name="email" required />
+          </div>
+          <div class="mb-3">
+            <label for="cpf_cnpj" class="form-label">CPF/CNPJ</label>
+            <input type="cpf_cnpj" class="form-control" id="cpf_cnpj" name="cpf_cnpj" required />
+          </div>
+          <div class="mb-3">
+            <label for="NFe/CFe" class="form-label">NFe/CFe</label>
+            <input type="doc_fiscal" class="form-control" id="doc_fiscal" name="doc_fiscal" required />
+          </div>
+          <button type="submit" class="btn btn-primary btn-block">Salvar</button>
         </form>
         <p id="message" class="mt-3 text-center"></p>
+      </div>
     </div>
-</div>
-</body>
+  </body>
 {% endblock %}

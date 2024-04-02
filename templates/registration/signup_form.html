@@ -1,16 +1,32 @@
-{% extends 'base.html' %} {# herda tudo que já tem em _layout1.html #}
-{% block content %} {# substitui o bloco content em _layout1.html #}
+{% extends 'base.html' %}
 
+{% block content %}
+
+{% endblock %}
 <div class="card">
-    <div class="card-header">
+  <div class="card-header">
     <h5 class="card-title">Registro de Usuário</h5>
-</div>
-<div class="card-body">
-    <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit" class="btn btn-success">Enviar</button>
+  </div>
+  <div class="card-body">
+    <form method="POST">
+      {% csrf_token %}
+      <!-- {{ form.as_p }} -->
+      <div class="mb-3">
+        <label for="Inputusername" class="form-label text-ad-right">Username</label>
+        <input type="text" class="form-control" id="username" aria-describedby="Username" name="username" required autofocus />
+        <div id="username" class="form-text">Nunca compartilhe seu usuário com ninguém.</div>
+      </div>
+      <div class="mb-3">
+        <label for="InputPassword" class="form-label">E-mail</label>
+        <input type="email" class="form-control" id="email" name="email" required />
+      </div>
+      <div class="mb-3">
+        <label for="exampleInputPassword1" class="form-label">Password</label>
+        <input type="password" class="form-control" id="Password1" name="password" required />
+      </div>
+      <button type="submit" class="btn btn-success">Enviar</button>
     </form>
-</div>
+  </div>
 
-{% endblock %} {# fechar o bloco content #}
+  {% endblock %} {# fechar o bloco content #}
+</div>

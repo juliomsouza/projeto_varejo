@@ -1,55 +1,41 @@
-{% extends "base.html" %}
+{% extends 'base.html' %}
 
 {% block content %}
-<h1>Consulta Lançamentos de Análise de  Defeitos </h1>
-    <table border="1" class="table">
-        <thead>
+  <h1>Consulta Lançamentos de Análise de Defeitos</h1>
+  <table border="1" class="table">
+    <thead>
+      <tr>
+        <th scope="col">Filial</th>
+        <th scope="col">NomeCliente</th>
+        <th scope="col">Telefone</th>
+        <th scope="col">Email</th>
+        <th scope="col">CPF/CNPJ</th>
+        <th scope="col">NFe/CFe</th>
+        <th scope="col">data_entrada</th>
+        <th scope="col">data_max_resp</th>
+        <th scope="col">data_max_retorno</th>
+        <th scope="col">produtos</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for analise in analiselist %}
         <tr>
-            <th scope="col">Filial</th>
-            <th scope="col">NomeCliente</th>
-            <th scope="col">Telefone</th>
-            <th scope="col">Email</th>
-            <th scope="col">CPF/CNPJ</th>
-            <th scope="col">NFe/CFe</th>
-            <th scope="col">data_entrada</th>
-            <th scope="col">data_max_resp</th>
-            <th scope="col">data_max_retorno</th>
-            <th scope="col">produtos</th>
-            <th scope="col">Defeitos</th>
+          <td>{{ analise.filial }}</td>
+          <td>{{ analise.nome_cliente }}</td>
+          <td>{{ analise.telefone }}</td>
+          <td>{{ analise.email }}</td>
+          <td>{{ analise.cpf_cnpj }}</td>
+          <td>{{ analise.doc_fiscal }}</td>
+          <td>{{ analise.data_entrada }}</td>
+          <td>{{ analise.data_max_resp }}</td>
+          <td>{{ analise.data_max_retorno }}</td>
+          <td>
+            {% for produto in analise.produtoanalise_set.all %}
+              {{ produto.codigo }}<br />
+            {% endfor %}
+          </td>
         </tr>
-        </thead>
-        <tbody>
-        {% for analise in  analiselist %}
-       <tr>
-            <td>{{ analise.filial }}</td>
-            <td>{{ analise.nome_cliente }}</td>
-            <td>{{ analise.telefone }}</td>
-            <td>{{ analise.email }}</td>
-            <td>{{ analise.cpf_cnpj }}</td>
-            <td>{{ analise.doc_fiscal }}</td> 
-            <td>{{ analise.data_entrada }}</td>
-            <td>{{ analise.data_max_resp }}</td>
-            <td>{{ analise.data_max_retorno }}</td>           
-            <td>
-                {%  for produto in analise.produtoanalise_set.all %}
-                {{ produto.codigo }}<br>
-                {% endfor %}
-            </td>
-            <td>
-                {%  for produto in analise.produtoanalise_set.all %}
-                {{ produto.descricao_df }}<br>
-                {% endfor %}
-            </td> 
-           
-        </tr>
-    {% endfor %}
-</tbody>
-</table>
-<style>
-    .table, th, td {
-        border-collapse: collapse;
-        padding: 10px;
-        text-align: left;
-    }
-</style>
-{% endblock content %}
+      {% endfor %}
+    </tbody>
+  </table>
+{% endblock %}
