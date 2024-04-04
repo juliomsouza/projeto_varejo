@@ -1,4 +1,6 @@
-from django.shortcuts import render, redirect
+from django.http import HttpRequest
+from django.http.response import HttpResponse
+from django.shortcuts import render, redirect, get_object_or_404
 from django.views.generic import TemplateView, ListView, CreateView
 #from django.contrib.auth.decorators import login_required
 from .models import PedidoAnalise, ProdutoAnalise, ProdutoStatus
@@ -33,18 +35,35 @@ class PedidoAnaliseCreateView(LoginRequiredMixin,CreateView):
     model = PedidoAnalise
     template_name = 'pedidoanalise-form.html'
     fields = ('filial','nome_cliente','telefone','email','cpf_cnpj','doc_fiscal')
-    success_url = reverse_lazy('analisedf:produto_analise') # URL para redirecionado em caso de sucesso
+    #success_url = reverse_lazy('analisedf:produto_analise') # URL para redirecionado em caso de sucesso
+    
+    def form_valid(self, form):
+       self.object = form.save()
+
+       #messages.success(self.request, self.success_message)
+       return super(PedidoAnaliseCreateView, self).form_valid(form)
+    
+    def get_success_url(self) -> str:
+        #print(self.object.id)
+
+        return reverse_lazy('analisedf:produto_analise', kwargs={'pk': self.object.id})
     #success_message = 'Pedido criado!.'
     # implementa o método que conclui a ação com sucesso (dentro da classe)
-    #def form_valid(self, form):
-     #   messages.success(self.request, self.success_message)
-      #  return super(ProdutoAnalise, self).form_valid(form)
+    
     
 class ProdutoAnaliseCreateView(LoginRequiredMixin,CreateView):
     model = ProdutoAnalise
     template_name = 'produto-analise-form.html'
-    fields = ('pedido','codigo','descricao','descricao_df')
+    fields = ('codigo','descricao','descricao_df')
 
     def get_success_url(self):
         return reverse_lazy("analisedf:analiselist")
+    
+    def dispatch(self, request: HttpRequest, *args: reverse_lazy, **kwargs: reverse_lazy) -> HttpResponse:
+        self.pedido_analise = get_object_or_404(PedidoAnalise, pk=kwargs.get("pk"))
+        return super().dispatch(request, *args, **kwargs)
+
+    def form_valid(self, form):
+        form.instance.pedido = self.pedido_analise
+        return super().form_valid(form)
     

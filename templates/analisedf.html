@@ -1,6 +1,11 @@
 {% extends 'base.html' %}
 
 {% block content %}
+  <style>
+    .table {
+      width: max-content;
+    }
+  </style>
   <h1>Consulta Lançamentos de Análise de Defeitos</h1>
   <table border="1" class="table">
     <thead>
@@ -26,9 +31,9 @@
           <td>{{ analise.email }}</td>
           <td>{{ analise.cpf_cnpj }}</td>
           <td>{{ analise.doc_fiscal }}</td>
-          <td>{{ analise.data_entrada }}</td>
-          <td>{{ analise.data_max_resp }}</td>
-          <td>{{ analise.data_max_retorno }}</td>
+          <td>{{ analise.data_entrada|date:'d/m/Y' }}</td>
+          <td>{{ analise.data_max_resp|date:'d/m/Y' }}</td>
+          <td>{{ analise.data_max_retorno|date:'d/m/Y' }}</td>
           <td>
             {% for produto in analise.produtoanalise_set.all %}
               {{ produto.codigo }}<br />

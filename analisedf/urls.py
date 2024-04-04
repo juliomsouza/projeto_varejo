@@ -10,5 +10,5 @@ urlpatterns = [
     path('list-prod', ProdutoListView.as_view(), name='list_prod'),
     path('prod-status', ProdStatusListView.as_view(), name='prod_status'),
     path('pedido-analise/incluir', PedidoAnaliseCreateView.as_view(), name='pedido_analise'),
-    path('produto-analise/incluir', ProdutoAnaliseCreateView.as_view(), name='produto_analise'),
+    path('pedido-analise/<int:pk>/produto/incluir', ProdutoAnaliseCreateView.as_view(), name='produto_analise'),
  ]

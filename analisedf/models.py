@@ -22,7 +22,10 @@ class PedidoAnalise(models.Model):
             self.data_max_resp = data_atual + timedelta(days=15)
             self.data_max_retorno = data_atual + timedelta(days=30)
     
-        super(PedidoAnalise, self).save(*args, **kwargs)   
+        super(PedidoAnalise, self).save(*args, **kwargs)
+
+    def __str__(self) -> str:
+        return f'{self.id}'  
     
 
 class ProdutoAnalise(models.Model):
