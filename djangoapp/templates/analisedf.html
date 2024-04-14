@@ -20,6 +20,7 @@
         <th scope="col">data_max_resp</th>
         <th scope="col">data_max_retorno</th>
         <th scope="col">produtos</th>
+        <th scope="col">Opções</th>
       </tr>
     </thead>
     <tbody>
@@ -38,6 +39,9 @@
             {% for produto in analise.produtoanalise_set.all %}
               {{ produto.codigo }}<br />
             {% endfor %}
+          </td>
+          <td>
+            <a href="{% url 'analisedf:analise_detail' pk=analise.id %}">Visualizar</a>
           </td>
         </tr>
       {% endfor %}

@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <style>
+    .table {
+      width: max-content;
+    }
+  </style>
+  <h1>Detalhes da Análise de Defeitos</h1>
+  <ul>
+    <li>pedido numero:{{ pedido_analise.id }}</li>
+    <li>{{ pedido_analise.nome_cliente }}</li>
+    <li>{{ pedido_analise.telefone }}</li>
+    <li>{{ pedido_analise.email }}</li>
+    <li>{{ pedido_analise.cpf_cnpj }}</li>
+    <li>{{ pedido_analise.doc_fiscal }}</li>
+    <li>{{ pedido_analise.data_entrada|date:'d/m/Y' }}</li>
+    <li>{{ pedido_analise.data_max_resp|date:'d/m/Y' }}</li>
+    <li>{{ pedido_analise.data_max_retorno|date:'d/m/Y' }}</li>
+  </ul>
+  <h2>Produtos</h2>
+  <table border="1" class="table">
+    <thead>
+      <tr>
+        <th scope="col">Cod. Produto</th>
+        <th scope="col">Desc. Produto</th>
+        <th scope="col">Desc. Defeitos</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      {% for produto in pedido_analise.produtoanalise_set.all %}
+        <tr>
+          <td>{{ produto.codigo }}</td>
+          <td>{{ produto.descricao }}</td>
+          <td>{{ produto.descricao_df }}</td>
+        </tr>
+        {% empty %}
+        <tr>
+          <td colspan="3">
+            <h6>Não foram encontrados produtos</h6>
+            <a href="{% url 'analisedf:produto_analise' pk=pedido_analise.id %}">Cadastrar uma Produto</a>
+          </td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endblock %}

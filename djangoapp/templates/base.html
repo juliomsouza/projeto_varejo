@@ -11,31 +11,31 @@
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet" />
   </head>
   <body>
-    <nav class="navbar bg-dark mb-4" data-bs-theme="dark">
+    <!-- <nav class="navbar bg-dark mb-4" data-bs-theme="dark">
       <div class="container-fluid">
         <form class="d-flex" role="search">
           <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" />
           <button class="btn btn-outline-success" type="submit">Search</button>
-          <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="nav nav-pills">
-              {% if user.is_authenticated %}
-                {# objeto user sempre está disponível nos templates #}
-                <li class="nav-item">
-                  <a href="{% url 'logout' %}" class="nav-link px-2 link-dark">Sair</a>
-                </li>
-              {% else %}
-                <li class="nav-item">
-                  <a href="{% url 'signup' %}" class="nav-link px-2 link-dark">Cadastrar</a>
-                </li>
-                <li class="nav-item">
-                  <a href="{% url 'login' %}" class="nav-link px-2 link-dark">Acessar</a>
-                </li>
-              {% endif %}
-            </ul>
-          </div>
+          <div class="collapse navbar-collapse" id="navbarNav"> -->
+    <ul class="nav nav-pills">
+      {% if user.is_authenticated %}
+        {# objeto user sempre está disponível nos templates #}
+        <li class="nav-item">
+          <a href="{% url 'logout' %}" class="nav-link px-2 link-dark">Sair</a>
+        </li>
+      {% else %}
+        <li class="nav-item">
+          <a href="{% url 'signup' %}" class="nav-link px-2 link-dark">Cadastrar</a>
+        </li>
+        <li class="nav-item">
+          <a href="{% url 'login' %}" class="nav-link px-2 link-dark">Acessar</a>
+        </li>
+      {% endif %}
+    </ul>
+    <!-- </div>
         </form>
       </div>
-    </nav>
+   </nav> -->
     <main class="container">
       {% block content %}
 

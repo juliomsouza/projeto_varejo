@@ -1,7 +1,7 @@
 from django.http import HttpRequest
 from django.http.response import HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
-from django.views.generic import TemplateView, ListView, CreateView
+from django.views.generic import TemplateView, ListView, CreateView, DetailView
 #from django.contrib.auth.decorators import login_required
 from .models import PedidoAnalise, ProdutoAnalise, ProdutoStatus
 from django.urls import reverse_lazy
@@ -12,14 +12,12 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 class Login(TemplateView):
    template_name = "login.html"
 
-#class Analisedefeito(TemplateView):
- #   template_name = "analisedf.html"
+class AnaliseDetailView(LoginRequiredMixin,DetailView):
+    model = PedidoAnalise
+    template_name = 'analisedf/pedido_detail.html'
+    context_object_name = 'pedido_analise'
 
-#@login_required
-class ProdutoListView(LoginRequiredMixin,ListView):
-    model = ProdutoAnalise
-    template_name = 'list-prod.html'
-    context_object_name = 'list_prod'
+
 
 class AnaliseListView(LoginRequiredMixin,ListView):
     model = PedidoAnalise
