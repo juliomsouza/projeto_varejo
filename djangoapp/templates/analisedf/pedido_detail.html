@@ -8,23 +8,25 @@
   </style>
   <h1>Detalhes da Análise de Defeitos</h1>
   <ul>
-    <li>pedido numero:{{ pedido_analise.id }}</li>
-    <li>{{ pedido_analise.nome_cliente }}</li>
-    <li>{{ pedido_analise.telefone }}</li>
-    <li>{{ pedido_analise.email }}</li>
-    <li>{{ pedido_analise.cpf_cnpj }}</li>
-    <li>{{ pedido_analise.doc_fiscal }}</li>
-    <li>{{ pedido_analise.data_entrada|date:'d/m/Y' }}</li>
-    <li>{{ pedido_analise.data_max_resp|date:'d/m/Y' }}</li>
-    <li>{{ pedido_analise.data_max_retorno|date:'d/m/Y' }}</li>
+    <li>Pedido Nº:{{ pedido_analise.id }}</li>
+    <li>Nome:{{ pedido_analise.nome_cliente }}</li>
+    <li>Telefone:{{ pedido_analise.telefone }}</li>
+    <li>E-mail:{{ pedido_analise.email }}</li>
+    <li>CPF/CNPJ:{{ pedido_analise.cpf_cnpj }}</li>
+    <li>NFe/CFe:{{ pedido_analise.doc_fiscal }}</li>
+    <li>Data Entrada:{{ pedido_analise.data_entrada|date:'d/m/Y' }}</li>
+    <li>Data/Resp:{{ pedido_analise.data_max_resp|date:'d/m/Y' }}</li>
+    <li>Data Retorno:{{ pedido_analise.data_max_retorno|date:'d/m/Y' }}</li> 
   </ul>
   <h2>Produtos</h2>
+  <a href="{% url 'analisedf:produto_analise' pk=pedido_analise.id %}">Cadastrar um Produto</a>
   <table border="1" class="table">
     <thead>
       <tr>
         <th scope="col">Cod. Produto</th>
         <th scope="col">Desc. Produto</th>
         <th scope="col">Desc. Defeitos</th>
+        <th scope="col">Opções</th>
       </tr>
     </thead>
 
@@ -34,12 +36,13 @@
           <td>{{ produto.codigo }}</td>
           <td>{{ produto.descricao }}</td>
           <td>{{ produto.descricao_df }}</td>
+          <td> <a href="{% url 'analisedf:produto_update' pk=produto.id %}">Editar</a>
+          &nbsp;<a href="{% url 'analisedf:produto_detail' pk=produto.id %}">Visualizar</a></td>
         </tr>
         {% empty %}
         <tr>
           <td colspan="3">
             <h6>Não foram encontrados produtos</h6>
-            <a href="{% url 'analisedf:produto_analise' pk=pedido_analise.id %}">Cadastrar uma Produto</a>
           </td>
         </tr>
       {% endfor %}

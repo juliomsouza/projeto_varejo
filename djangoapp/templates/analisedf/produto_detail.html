@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <style>
+    .table {
+      width: max-content;
+    }
+  </style>
+  <h1>Detalhes do Produto</h1>
+  <ul>
+    <li>Pedido Nº:{{ produto_analise.pedido.id }}</li>
+    <li>Codigo:{{ produto_analise.codigo }}</li>
+    <li>Descricao:{{ produto_analise.descricao }}</li>
+    <li>Descricao DF:{{ produto_analise.descricao_df }}</li>
+  </ul>
+  <h2>Imagens do Produtos</h2>
+  <a href="{% url 'analisedf:produto_foto_upload' produto_id='produto_analise.id' %}">Adicionar Imagem</a>
+    <ul>
+      {% for foto in produto_analise.produtoanalisefoto_set.all %}
+          <li> <img src="{{ foto.image.url }}" alt="Foto"> </li>
+          
+          {% empty %}
+          <li>
+            <h6>Não foram encontrados imagens...</h6>
+          </li>
+        
+      {% endfor %}
+      </ul>
+  
+{% endblock %}

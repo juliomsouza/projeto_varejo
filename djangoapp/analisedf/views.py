@@ -1,12 +1,14 @@
 from django.http import HttpRequest
 from django.http.response import HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
-from django.views.generic import TemplateView, ListView, CreateView, DetailView
+from django.views.generic import TemplateView, ListView, CreateView, DetailView, UpdateView
 #from django.contrib.auth.decorators import login_required
-from .models import PedidoAnalise, ProdutoAnalise, ProdutoStatus
 from django.urls import reverse_lazy
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
+
+from .models import PedidoAnalise, ProdutoAnalise, ProdutoStatus, ProdutoAnaliseFoto
+from .forms import ProdutoAnaliseFotoForm
 
 
 class Login(TemplateView):
@@ -55,7 +57,8 @@ class ProdutoAnaliseCreateView(LoginRequiredMixin,CreateView):
     fields = ('codigo','descricao','descricao_df')
 
     def get_success_url(self):
-        return reverse_lazy("analisedf:analiselist")
+        pedido_id = self.kwargs.get('pk')
+        return reverse_lazy("analisedf:analise_detail", kwargs={'pk': pedido_id})
     
     def dispatch(self, request: HttpRequest, **kwargs) -> HttpResponse:
         self.pedido_analise = get_object_or_404(PedidoAnalise, pk=kwargs.get("pk"))
@@ -65,3 +68,30 @@ class ProdutoAnaliseCreateView(LoginRequiredMixin,CreateView):
         form.instance.pedido = self.pedido_analise
         return super().form_valid(form)
     
+
+class ProdutoAnaliseUpdateView(LoginRequiredMixin, UpdateView):
+    model = ProdutoAnalise
+    template_name = 'produto-analise-form.html'
+    fields = ('codigo','descricao','descricao_df')
+
+    def get_success_url(self):
+        pedido_id = self.object.pedido.id
+        return reverse_lazy("analisedf:analise_detail", kwargs={'pk': pedido_id})
+    
+class ProdutoAnaliseDetailView(LoginRequiredMixin,DetailView):
+    model = ProdutoAnalise
+    template_name = 'analisedf/produto_detail.html'
+    context_object_name = 'produto_analise'
+
+
+def produto_upload_fotos(request, produto_id):
+    form = ProdutoAnaliseFotoForm(request.POST, request.FILES)
+    if request.method == 'POST':
+        imagens = request.FILES.getlist('foto')
+        for imagem in imagens:
+            produto_imagem = ProdutoAnaliseFoto(image=imagem, produto=produto_id)
+            produto_imagem.save()
+        return reverse_lazy("analisedf:produto_detail", kwargs={'pk': produto_id})
+    
+    context = {'form': form}
+    return render(request,'analisedf/produto_analise_foto_form.html')
