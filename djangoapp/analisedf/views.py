@@ -1,3 +1,4 @@
+from pprint import pprint
 from django.http import HttpRequest
 from django.http.response import HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
@@ -24,7 +25,24 @@ class AnaliseDetailView(LoginRequiredMixin,DetailView):
 class AnaliseListView(LoginRequiredMixin,ListView):
     model = PedidoAnalise
     template_name = 'analisedf.html'
-    context_object_name = 'analiselist' 
+    context_object_name = 'analiselist'
+
+    def get_context_data(self, **kwargs):
+        context = super(AnaliseListView, self).get_context_data(**kwargs)
+        pedidos = self.object_list
+        status = {}
+        for pedido in pedidos:
+            status[pedido.id] = 'consulte'
+            status_atual = ProdutoStatus.objects.filter(
+                    produto__in=pedido.produtoanalise_set.all()
+                ).values_list('status', flat=True)
+            if 'pedido_em_edição' in status_atual or len(status_atual) == 0:
+                status[pedido.id] = 'Em Edição'
+            elif 'aguardando_transporte' in status_atual:
+                status[pedido.id] = 'aguardando_transp_loja'
+                #pprint(status_atual)
+        context['status'] = status
+        return context
 
 class ProdStatusListView(LoginRequiredMixin,ListView):
     model = ProdutoStatus
@@ -39,7 +57,7 @@ class PedidoAnaliseCreateView(LoginRequiredMixin,CreateView):
     
     def form_valid(self, form):
        self.object = form.save()
-
+       self.object.user = self.request.user 
        #messages.success(self.request, self.success_message)
        return super(PedidoAnaliseCreateView, self).form_valid(form)
     
@@ -86,12 +104,13 @@ class ProdutoAnaliseDetailView(LoginRequiredMixin,DetailView):
 
 def produto_upload_fotos(request, produto_id):
     form = ProdutoAnaliseFotoForm(request.POST, request.FILES)
-    if request.method == 'POST':
-        imagens = request.FILES.getlist('foto')
+    produto = get_object_or_404(ProdutoAnalise, pk=produto_id)
+    if request.method == 'POST':        
+        imagens = request.FILES.getlist('image')
         for imagem in imagens:
-            produto_imagem = ProdutoAnaliseFoto(image=imagem, produto=produto_id)
+            produto_imagem = ProdutoAnaliseFoto(image=imagem, produto=produto)
             produto_imagem.save()
-        return reverse_lazy("analisedf:produto_detail", kwargs={'pk': produto_id})
+        return redirect(reverse_lazy("analisedf:produto_detail", kwargs={'pk': produto_id}))
     
-    context = {'form': form}
-    return render(request,'analisedf/produto_analise_foto_form.html')
+    context = {'form': form, 'produto': produto}
+    return render(request,'analisedf/produto_analise_foto_form.html', context)

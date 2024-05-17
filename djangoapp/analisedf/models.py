@@ -1,10 +1,14 @@
-from django.db import models
 from datetime import timedelta, datetime
 
+from django.db import models
+from django.contrib.auth import get_user_model
 
-STATUS_PRODUTO = [('recebido','Recebido'),('em_analise','Em analise'), ('aguardando_transporte','aguardando transporte')]
+User = get_user_model()
+
+STATUS_PRODUTO = [('recebido','Recebido'),('pedido_em_edição','Pedido em Edição'),('em_analise','Em analise'), ('aguardando_transporte','aguardando transporte')]
 
 class PedidoAnalise(models.Model):
+    user = models.ForeignKey(User, on_delete = models.CASCADE, blank=True, null=True)
     filial = models.CharField('Código/Nome Filial', max_length=200)
     nome_cliente = models.CharField('Nome do cliente', max_length=200)
     telefone = models.CharField('Telefone', max_length=15)
@@ -21,6 +25,7 @@ class PedidoAnalise(models.Model):
             data_atual = datetime.now()
             self.data_max_resp = data_atual + timedelta(days=15)
             self.data_max_retorno = data_atual + timedelta(days=30)
+
     
         super(PedidoAnalise, self).save(*args, **kwargs)
 
@@ -35,7 +40,19 @@ class ProdutoAnalise(models.Model):
     descricao_df = models.TextField('Descrição do Defeito')
 
     def __str__(self):
-        return f'{self.codigo} - {self.descricao}' 
+        return f'{self.codigo} - {self.descricao}'
+    
+    def save(self, *args, **kwargs):
+        if self.id is None:
+           data_atual = datetime.now()
+           produto_status = ProdutoStatus(
+               user = self.pedido.user,
+               data_status = data_atual,
+               status = 'pedido_em_edição',
+               produto = self
+               )
+            
+        super(ProdutoAnalise, self).save(*args, **kwargs)
 
 
 class ProdutoAnaliseFoto(models.Model):
@@ -46,6 +63,7 @@ class ProdutoAnaliseFoto(models.Model):
         return f'{self.produto}' 
 
 class ProdutoStatus(models.Model):
+    user = models.ForeignKey(User, on_delete = models.CASCADE, blank=True, null=True)
     produto = models.ForeignKey(ProdutoAnalise, on_delete = models.CASCADE)
     data_status = models.DateTimeField('Data',auto_now=True)
     status = models.CharField('Status', choices=STATUS_PRODUTO, default='aguardando_transporte', max_length=30)
@@ -58,11 +76,9 @@ class ProdutoStatus(models.Model):
 
 
     """
-    pedido 
-        cliente: Nome, celular , e-mail, cpf , NFe
-    produtos: cod_produto, tipo:() cor:  tamanho: descricao do(s) defeito(s)
-    data_entrada - previsao_entrega_cliente - previsão_reposta 10 ou 15 antes de estourar o prazo de 30 dias
-    filial - funcionario que recebeu
-    status: (recebido, em analise, (Produto não localizado,realizado_conserto, sem conserto),
-         (aguardando transporte, liberado credito))
-"""
+        desenhar status depois que estiver na fabrica
+        filial - funcionario que recebeu
+        status: (recebido, em analise, (Produto não localizado,realizado_conserto, sem conserto,
+        autorizado_credito, Devolução sem conserto, aguardando_retornar_loja, em_transporte_loja),
+        recebido loja, credito_efetivado, entregue_cliente))
+    """

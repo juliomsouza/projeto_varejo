@@ -9,7 +9,7 @@ class PedidoAnaliseForm(forms.ModelForm):
 '''
 
 class ProdutoAnaliseFotoForm(forms.ModelForm):
-    image = forms.ImageField(widget=forms.TextInput(attrs={'name': 'fotos', 'type': 'File', 'multiple': 'True'}), label='')
+    image = forms.ImageField(widget=forms.TextInput(attrs={'type': 'file', 'multiple': 'True'}), label='')
 
     class Meta:
         model = ProdutoAnaliseFoto

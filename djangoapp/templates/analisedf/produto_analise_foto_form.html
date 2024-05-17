@@ -1,20 +1,28 @@
-{% extends 'base.html' %}
-{% load crispy_forms_tags %}
+{% extends 'base.html' %} {% load crispy_forms_tags %} {% block content %} 
+{% block page_title %} {% endblock %}
 
-{% block content %}
-  {% block page_title %}
-
-  {% endblock %}
-
-  <div class="container">
-    <div class="jumbotron">
-      <h1 class="display-2 text-center">Upload de Imagens do produto</h1>
-      <form id="ProdutoForm" method="POST" enctype="multipart/form-data">
-        {% csrf_token %}
-        {{ form|crispy }}
-        <button type="submit" class="btn btn-primary btn-block">Carregar Imagens...</button>
-      </form>
-      <p id="message" class="mt-3 text-center"></p>
-    </div>
+<div class="container">
+  <h1>Detalhes do Produto</h1>
+  <ul>
+    <li>
+      Pedido Nº:{{ produto.pedido.id }}&nbsp;<a
+        href="{% url 'analisedf:analise_detail' pk=produto.pedido.id %}"
+        >Voltar para o pedido</a
+      >
+    </li>
+    <li>Codigo:{{ produto.codigo }}</li>
+    <li>Descricao:{{ produto.descricao }}</li>
+    <li>Descricao DF:{{ produto.descricao_df }}</li>
+  </ul>
+  <div>
+    <h1>Upload de Imagens do produto</h1>
+    <form id="ProdutoFormFoto" method="POST" enctype="multipart/form-data">
+      {% csrf_token %} {{ form|crispy }}
+      <button type="submit" class="btn btn-primary btn-block">
+        Carregar Imagens...
+      </button>
+    </form>
+    <p id="message" class="mt-3 text-center"></p>
   </div>
+</div>
 {% endblock %}

@@ -1,11 +1,6 @@
 {% extends 'base.html' %}
 
 {% block content %}
-  <style>
-    .table {
-      width: max-content;
-    }
-  </style>
   <h1>Detalhes da Análise de Defeitos</h1>
   <ul>
     <li>Pedido Nº:{{ pedido_analise.id }}</li>
@@ -18,30 +13,34 @@
     <li>Data/Resp:{{ pedido_analise.data_max_resp|date:'d/m/Y' }}</li>
     <li>Data Retorno:{{ pedido_analise.data_max_retorno|date:'d/m/Y' }}</li> 
   </ul>
-  <h2>Produtos</h2>
+  <div class="responsive-table">
+    <table class="contacts-table">
+        <caption class="table-caption">
+          Produtos
+        </caption>
+
   <a href="{% url 'analisedf:produto_analise' pk=pedido_analise.id %}">Cadastrar um Produto</a>
-  <table border="1" class="table">
-    <thead>
-      <tr>
-        <th scope="col">Cod. Produto</th>
-        <th scope="col">Desc. Produto</th>
-        <th scope="col">Desc. Defeitos</th>
-        <th scope="col">Opções</th>
+  <thead>
+      <tr class="table-row table-row-header">
+        <th class="table-header">Cod. Produto</th>
+        <th class="table-header">Desc. Produto</th>
+        <th class="table-header">Desc. Defeitos</th>
+        <th class="table-header">Opções</th>
       </tr>
     </thead>
 
     <tbody>
       {% for produto in pedido_analise.produtoanalise_set.all %}
-        <tr>
-          <td>{{ produto.codigo }}</td>
-          <td>{{ produto.descricao }}</td>
-          <td>{{ produto.descricao_df }}</td>
-          <td> <a href="{% url 'analisedf:produto_update' pk=produto.id %}">Editar</a>
-          &nbsp;<a href="{% url 'analisedf:produto_detail' pk=produto.id %}">Visualizar</a></td>
+        <tr class="table-row">
+          <td class="table-cel">{{ produto.codigo }}</td>
+          <td class="table-cel">{{ produto.descricao }}</td>
+          <td class="table-cel">{{ produto.descricao_df }}</td>
+          <td class="table-cel"> <a href="{% url 'analisedf:produto_update' pk=produto.id %}">Editar</a>
+          &nbsp;<a class="table-link" href="{% url 'analisedf:produto_detail' pk=produto.id %}">Visualizar</a></td>
         </tr>
         {% empty %}
         <tr>
-          <td colspan="3">
+          <td class="table-cel">
             <h6>Não foram encontrados produtos</h6>
           </td>
         </tr>

@@ -1,45 +1,43 @@
 {% extends 'base.html' %}
-{% load crispy_forms_tags %}
 
 {% block content %}
-  {% block page_title %}
-    Cadastro De Análises
-  {% endblock %}
 
-  <body>
-    <div class="container">
-      <div class="jumbotron">
-        <h1 class="display-4 text-center">Pedido Analise</h1>
-        <form id="pedidoForm" method="POST">
-          {% csrf_token %}
-          <div class="mb-1">
-            <label for="filial" class="form-label text-ad-right">Filial</label>
-            <input type="text" class="form-control" id="filial" aria-describedby="Filial" name="filial" required autofocus />
-          </div>
-          <div class="mb-3">
-            <label for="nome_cliente" class="form-label">Cliente</label>
-            <input type="nome_cliente" class="form-control" id="nome_cliente" name="nome_cliente" required />
-          </div>
-          <div class="mb-3">
-            <label for="telefone" class="form-label">Telefone</label>
-            <input type="telefone" class="form-control" id="telefone" name="telefone" required />
-          </div>
-          <div class="mb-3">
-            <label for="email" class="form-label">E-mail</label>
-            <input type="email" class="form-control" id="email" name="email" required />
-          </div>
-          <div class="mb-3">
-            <label for="cpf_cnpj" class="form-label">CPF/CNPJ</label>
-            <input type="cpf_cnpj" class="form-control" id="cpf_cnpj" name="cpf_cnpj" required />
-          </div>
-          <div class="mb-3">
-            <label for="NFe/CFe" class="form-label">NFe/CFe</label>
-            <input type="doc_fiscal" class="form-control" id="doc_fiscal" name="doc_fiscal" required />
-          </div>
-          <button type="submit" class="btn btn-primary btn-block">Salvar</button>
-        </form>
-        <p id="message" class="mt-3 text-center"></p>
-      </div>
-    </div>
+<body>
+  <header>
+    <h1>Lançar Pedido Analise</h1>
+  </header>
+  <section>
+  <form method="POST">
+    {% csrf_token %}
+  <div>
+      <label>Filial</label>
+      <input type="text" class="form-pd" placeholder="Digite o codigo da filial" name="filial" required autofocus />
+  </div>
+  <div>
+    <label>Cliente</label>
+    <input type="text" class="form-pd" placeholder="Digite o nome da(o) cliente" name="nome_cliente" required />
+  </div>
+  <div>
+      <label>Telefone</label>
+      <input type="text" class="form-pd" placeholder="Digite o numero de telefone" name="telefone" required />
+  </div>
+  <div>
+      <label for="email" class="form-label">E-mail</label>
+      <input type="email" class="form-control" placeholder="Digite o endereço de e-mail" name="email" required />
+  </div>
+  <div>
+      <label for="cpf_cnpj" class="form-label">CPF/CNPJ</label>
+      <input type="text"  placeholder="Digite o CPF/CNPJ do cliente" name="cpf_cnpj" required />
+  </div>
+  <div>
+      <label>NFe/CFe</label>
+      <input type="text" placeholder="Digite o Numero da NF/Cupom" name="doc_fiscal" required />
+  </div>
+      <button type="submit" class="btn btn-primary btn-block">Salvar</button>
+  </form>
+  </section>
+    <p id="message"></p>
+  </div>
+  </div>
   </body>
 {% endblock %}

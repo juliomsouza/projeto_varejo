@@ -1,50 +1,58 @@
 {% extends 'base.html' %}
+{% load analisedf_tags %}
 
 {% block content %}
-  <style>
-    .table {
-      width: max-content;
-    }
-  </style>
-  <h1>Consulta Lançamentos de Análise de Defeitos</h1>
-  <table border="1" class="table">
-    <thead>
-      <tr>
-        <th scope="col">Filial</th>
-        <th scope="col">NomeCliente</th>
-        <th scope="col">Telefone</th>
-        <th scope="col">Email</th>
-        <th scope="col">CPF/CNPJ</th>
-        <th scope="col">NFe/CFe</th>
-        <th scope="col">data_entrada</th>
-        <th scope="col">data_max_resp</th>
-        <th scope="col">data_max_retorno</th>
-        <th scope="col">produtos</th>
-        <th scope="col">Opções</th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for analise in analiselist %}
-        <tr>
-          <td>{{ analise.filial }}</td>
-          <td>{{ analise.nome_cliente }}</td>
-          <td>{{ analise.telefone }}</td>
-          <td>{{ analise.email }}</td>
-          <td>{{ analise.cpf_cnpj }}</td>
-          <td>{{ analise.doc_fiscal }}</td>
-          <td>{{ analise.data_entrada|date:'d/m/Y' }}</td>
-          <td>{{ analise.data_max_resp|date:'d/m/Y' }}</td>
-          <td>{{ analise.data_max_retorno|date:'d/m/Y' }}</td>
-          <td>
-            {% for produto in analise.produtoanalise_set.all %}
-              {{ produto.codigo }}<br />
-            {% endfor %}
-          </td>
-          <td>
-            <a href="{% url 'analisedf:analise_detail' pk=analise.id %}">Visualizar</a>
-          </td>
+  <div class="responsive-table">
+    <table class="pedidos-table">
+      <caption class="table-caption"> 
+        Consulta Lançamentos de Análise de Defeitos
+      </caption>
+      <thead>
+        <tr class="table-row table-row-header">
+          <th class="table-header">Filial</th>
+          <th class="table-header">NomeCliente</th>
+          <th class="table-header">Telefone</th>
+          <th class="table-header">Email</th>
+          <th class="table-header">CPF/CNPJ</th>
+          <th class="table-header">NFe/CFe</th>
+          <th class="table-header">data_entrada</th>
+          <th class="table-header">data_max_resp</th>
+          <th class="table-header">data_max_retorno</th>
+          <th class="table-header">produtos</th>
+          <th class="table-header">Opções</th>
+          <th class="table-header">Status</th>
         </tr>
-      {% endfor %}
-    </tbody>
-  </table>
-{% endblock %}
+      </thead>
+      <tbody>
+        {% for analise in analiselist %}
+          <tr class="table-row">
+            <td class="table-cel">{{ analise.filial }}</td>
+            <td class="table-cel">{{ analise.nome_cliente }}</td>
+            <td class="table-cel">{{ analise.telefone }}</td>
+            <td class="table-cel">{{ analise.email }}</td>
+            <td class="table-cel">{{ analise.cpf_cnpj }}</td>
+            <td class="table-cel">{{ analise.doc_fiscal }}</td>
+            <td class="table-cel">{{ analise.data_entrada|date:'d/m/Y' }}</td>
+            <td class="table-cel">{{ analise.data_max_resp|date:'d/m/Y' }}</td>
+            <td class="table-cel">{{ analise.data_max_retorno|date:'d/m/Y' }}</td>
+            <td class="table-cel">
+              {% for produto in analise.produtoanalise_set.all %}
+                {{ produto.codigo }}<br />
+              {% endfor %}
+            </td>
+            <td class="table-cel">
+              <a class="table-link" href="{% url 'analisedf:analise_detail' pk=analise.id %}">Visualizar</a>
+            </td>
+            <td class="table-cel">
+              {% with analise_id=analise.id %}
+              {% with status|status_ped:analise_id as value %}
+              {{ value }}
+              {% endwith %}
+              {% endwith %}
+            </td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {% endblock content %}
